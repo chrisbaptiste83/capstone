@@ -6,12 +6,10 @@
     <title>Checkout - Embroidery Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://js.stripe.com/v3/"></script>
-    <!-- Firebase Compat Scripts to avoid module syntax errors -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col items-center p-6">
-    <!-- Navigation -->
     <nav class="w-full max-w-6xl mx-auto mb-8 px-4">
         <div class="flex flex-wrap items-center justify-between py-4 border-b border-gray-300">
             <h1 class="text-3xl font-bold text-indigo-700">Embroidery Shop</h1>
@@ -32,16 +30,12 @@
         </div>
     </nav>
 
-    <!-- Checkout Header -->
     <h1 class="text-3xl font-bold mb-8 text-indigo-700">Checkout</h1>
 
-    <!-- Cart Items Summary -->
     <div id="cart-items" class="max-w-3xl w-full bg-white p-6 rounded-lg shadow mb-8">
         <p class="text-gray-500 text-center" id="empty-cart-message">Loading cart items...</p>
-        <!-- Cart items will be rendered here by checkout.js -->
     </div>
 
-    <!-- Checkout Actions -->
     <div class="flex flex-wrap justify-center gap-4 mt-8">
         <button id="checkout-button" class="bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed" aria-label="Proceed to payment with Stripe" disabled>
             Proceed to Payment
@@ -51,9 +45,7 @@
         </button>
     </div>
 
-    <!-- Firebase Initialization and Auth UI Updates (Not tied to checkout) -->
     <script>
-        // Firebase Configuration (Secure this in production)
         var firebaseConfig = {
             apiKey: "AIzaSyBPd56QvMuGZ2AE-f5F48sZvrLDZXUOUxo",
             authDomain: "embroidery-file-store.firebaseapp.com",
@@ -64,13 +56,11 @@
             measurementId: "G-68CQ7R285V"
         };
 
-        // Initialize Firebase with error handling
         try {
             firebase.initializeApp(firebaseConfig);
             console.log('Firebase initialized successfully');
             var auth = firebase.auth();
 
-            // Update Navigation UI Based on Auth State
             auth.onAuthStateChanged(function(user) {
                 var loginLink = document.querySelector('a[href="login.html"]');
                 var signupLink = document.querySelector('a[href="signup.html"]');
@@ -102,7 +92,6 @@
         }
     </script>
 
-    <!-- External JS for Cart and Stripe Logic -->
     <script src="checkout.js"></script>
 </body>
 </html>

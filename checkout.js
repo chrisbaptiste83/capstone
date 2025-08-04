@@ -1,10 +1,8 @@
-// Initialize Stripe with public key (safe for client-side)
 const stripe = Stripe("pk_test_51RpoJd2OmJYdIauYgwXqJXcJoMCQhcKbfm8FWh9FhuS6Pk72kjDc0DqC1t3orkO0mpcOt3embabRvcwVpEEFUCT800MUysCMdx");
 
 document.addEventListener("DOMContentLoaded", function() {
     console.log('checkout.js loaded and DOMContentLoaded fired');
 
-    // DOM Elements
     const cartItemsContainer = document.getElementById("cart-items");
     const checkoutButton = document.getElementById("checkout-button");
     const clearCartButton = document.getElementById("clear-cart-button");
@@ -22,7 +20,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     console.log('DOM elements found');
 
-    // Load cart from localStorage
     let cart = [];
     try {
         const savedCart = localStorage.getItem("myCart");
@@ -34,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function() {
         cart = [];
     }
 
-    // Render cart items or show empty message
     if (cart.length === 0) {
         console.log('Cart is empty');
         emptyCartMessage.textContent = "Your cart is empty.";
@@ -44,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
     }
 
-    // Hide loading message and render cart
     console.log('Cart has items, rendering...');
     emptyCartMessage.style.display = "none";
     renderCartItems(cart, cartItemsContainer);
@@ -54,14 +49,12 @@ document.addEventListener("DOMContentLoaded", function() {
     setupEventListeners(cart, checkoutButton, clearCartButton);
 });
 
-// Function to render cart items
 function renderCartItems(cart, container) {
     console.log('Rendering cart items:', cart);
     container.innerHTML = '';
     let total = 0;
 
     cart.forEach((item) => {
-        // Validate item data
         const price = parseFloat(item.price) || 0;
         const quantity = parseInt(item.quantity) || 0;
         if (price <= 0 || quantity <= 0) {
@@ -99,7 +92,6 @@ function renderCartItems(cart, container) {
         total += itemTotal;
     });
 
-    // Append total row
     const totalDiv = document.createElement("div");
     totalDiv.className = "flex justify-between items-center border-t pt-4 mt-4 font-bold text-lg";
     totalDiv.innerHTML = `
@@ -110,18 +102,14 @@ function renderCartItems(cart, container) {
     console.log('Cart rendering complete, total:', total);
 }
 
-// Setup event listeners for checkout and clear cart
 function setupEventListeners(cart, checkoutButton, clearCartButton) {
     console.log('Setting up event listeners for buttons');
-    // Checkout button (Stripe integration)
     checkoutButton.addEventListener("click", async function() {
         try {
             console.log('Checkout button clicked, initiating Stripe process');
-            // Disable button to prevent double-clicks
             checkoutButton.disabled = true;
             checkoutButton.textContent = "Processing...";
 
-            // Fetch Checkout Session from backend
             const response = await fetch('http://localhost:36793/create-checkout-session', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -146,7 +134,6 @@ function setupEventListeners(cart, checkoutButton, clearCartButton) {
             console.error("Error creating checkout session:", error);
             alert(`Checkout failed: ${error.message}. Please try again or contact support.`);
         } finally {
-            // Re-enable button after processing
             checkoutButton.disabled = false;
             checkoutButton.textContent = "Proceed to Payment";
             console.log('Checkout process completed or failed, button re-enabled');

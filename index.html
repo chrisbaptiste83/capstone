@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Embroidery Files Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Firebase SDKs (using compat version) -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
     
-    <!-- Navigation Styles -->
     <style>
         .nav-loading {
             opacity: 0.5;
@@ -22,16 +20,13 @@
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen px-4 py-6 flex flex-col items-center">
-    <!-- Navigation -->
     <nav class="w-full max-w-6xl mx-auto mb-8 px-4">
         <div class="flex flex-wrap items-center justify-between py-4 border-b border-gray-300">
             <h1 class="text-3xl font-bold text-indigo-700">Embroidery Shop</h1>
             <div class="flex flex-wrap gap-6 items-center text-sm font-medium text-indigo-700">
                 <a href="index.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Home</a>
                 <div id="category-links" class="flex gap-4 flex-wrap items-center text-sm font-medium text-indigo-700">
-                    <!-- Categories will be inserted here dynamically -->
                 </div>
-                <!-- Profile Link (hidden by default) -->
                 <a href="profile.html" id="profile-link" class="hidden hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">
                     <span class="flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -40,12 +35,9 @@
                         Profile
                     </span>
                 </a>
-                <!-- User Email Display -->
                 <span id="user-email-display" class="hidden text-sm text-gray-600"></span>
-                <!-- Auth Links -->
                 <a href="login.html" id="login-link" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Login</a>
                 <a href="signup.html" id="signup-link" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Sign Up</a>
-                <!-- Cart Button -->
                 <button id="cart-btn" class="relative ml-4" aria-label="Toggle shopping cart">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-indigo-700 hover:text-indigo-900 transition">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2m.6 3h13.4l-1.6 8H7.2l-1.6-8zm0 0L5.2 5H19m-9 12a1 1 0 100 2 1 1 0 000-2zm6 0a1 1 0 100 2 1 1 0 000-2z" />
@@ -56,14 +48,12 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="w-full max-w-6xl mb-10 p-8 bg-indigo-100 rounded-xl text-center">
         <h1 class="text-4xl font-extrabold text-indigo-800 mb-4">Welcome to the Embroidery Files Shop</h1>
         <p class="text-indigo-700 mb-6 max-w-xl mx-auto">Discover unique and beautiful embroidery designs ready for download. Browse our curated collection and bring your creative projects to life.</p>
         <a href="#product-list" class="inline-block bg-indigo-700 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-800 transition">Browse Products</a>
     </section>
 
-    <!-- Product Listing -->
     <main class="w-full max-w-6xl">
         <section id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <p class="text-gray-500 text-center col-span-full" id="loading-products">Loading products...</p>
@@ -71,7 +61,6 @@
         </section>
     </main>
 
-    <!-- Product Modal -->
     <div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm hidden z-40"></div>
     <dialog id="product-modal" class="modal z-50">
         <form method="dialog" class="modal-box max-w-3xl w-[90vw] p-8 rounded-2xl bg-white/90 backdrop-blur-md shadow-xl">
@@ -92,7 +81,6 @@
         </form>
     </dialog>
 
-    <!-- Cart Panel -->
     <div id="cart-panel" class="fixed right-0 top-0 h-full w-80 bg-white shadow-lg p-6 z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
         <h2 class="text-xl font-bold mb-4">Your Cart</h2>
         <div id="cart-items" class="flex-grow overflow-auto">
@@ -101,9 +89,7 @@
         <button id="go-to-checkout" class="mt-6 w-full bg-indigo-600 text-white py-3 rounded-full">Go to Checkout</button>
     </div>
 
-    <!-- External JS -->
       <script>
-        // Your Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBPd56QvMuGZ2AE-f5F48sZvrLDZXUOUxo",
             authDomain: "embroidery-file-store.firebaseapp.com",
@@ -114,11 +100,9 @@
             measurementId: "G-68CQ7R285V"
         };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
     </script>
 
-    <!-- External JS -->
     <script src="nav.js"></script>
     <script src="script.js"></script>
 </body>

@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile - Embroidery Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-storage-compat.js"></script>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col items-center p-6">
-    <!-- Navigation -->
     <nav class="w-full max-w-6xl mx-auto mb-8 px-4">
         <div class="flex flex-wrap items-center justify-between py-4 border-b border-gray-300">
             <h1 class="text-3xl font-bold text-indigo-700">Embroidery Shop</h1>
@@ -23,11 +21,9 @@
         </div>
     </nav>
 
-    <!-- Profile Section -->
     <div class="max-w-2xl w-full bg-white rounded-lg shadow-md p-8">
         <h2 class="text-2xl font-bold text-indigo-700 mb-6">My Profile</h2>
         
-        <!-- Profile Image -->
         <div class="flex justify-center mb-6">
             <div class="relative">
                 <img id="profile-image" src="placeholder-profile.jpg" 
@@ -43,7 +39,6 @@
             </div>
         </div>
 
-        <!-- Profile Form -->
         <form id="profile-form" class="space-y-4">
             <div>
                 <label for="displayName" class="block text-sm font-medium text-gray-700">Display Name</label>
@@ -69,7 +64,6 @@
                          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
             </div>
 
-            <!-- Order History Section -->
             <div class="mt-6">
                 <h3 class="text-lg font-semibold text-gray-900 mb-3">Order History</h3>
                 <div id="order-history" class="space-y-3">
@@ -85,13 +79,11 @@
             </div>
         </form>
 
-        <!-- Success/Error Messages -->
         <div id="success-message" class="hidden mt-4 p-3 bg-green-100 text-green-700 rounded-md"></div>
         <div id="error-message" class="hidden mt-4 p-3 bg-red-100 text-red-700 rounded-md"></div>
     </div>
 
     <script>
-        // Initialize Firebase with your config
         const firebaseConfig = {
             // Your Firebase config here
             apiKey: "your-api-key",
@@ -102,15 +94,12 @@
             appId: "your-app-id"
         };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
 
-        // Get Firebase services
         const auth = firebase.auth();
         const db = firebase.firestore();
         const storage = firebase.storage();
 
-        // DOM Elements
         const profileForm = document.getElementById('profile-form');
         const profileImage = document.getElementById('profile-image');
         const imageUpload = document.getElementById('image-upload');
@@ -118,18 +107,14 @@
         const successMessage = document.getElementById('success-message');
         const errorMessage = document.getElementById('error-message');
 
-        // Check Authentication State
         auth.onAuthStateChanged(async (user) => {
             if (user) {
-                // Load user profile data
                 loadUserProfile(user);
             } else {
-                // Redirect to login if not authenticated
                 window.location.href = 'login.html';
             }
         });
 
-        // Load User Profile
         async function loadUserProfile(user) {
             try {
                 // Get user profile from Firestore
@@ -149,7 +134,6 @@
                         profileImage.src = data.profileImage;
                     }
 
-                    // Load order history
                     loadOrderHistory(user.uid);
                 }
             } catch (error) {
@@ -158,7 +142,6 @@
             }
         }
 
-        // Handle Profile Image Upload
         imageUpload.addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (file) {
@@ -189,7 +172,6 @@
             }
         });
 
-        // Handle Profile Form Submit
         profileForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             

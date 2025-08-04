@@ -1,15 +1,11 @@
-// nav.js// nav.js
 function initializeNavigation() {
-    // Get navigation elements
     const profileLink = document.getElementById('profile-link');
     const loginLink = document.getElementById('login-link');
     const signupLink = document.getElementById('signup-link');
     const userEmailDisplay = document.getElementById('user-email-display');
 
-    // Show loading state
     showNavLoading();
 
-    // Auth state change listener
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             // User is logged in
@@ -78,7 +74,6 @@ function setActiveNavItem() {
     });
 }
 
-// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     initializeNavigation();
     setActiveNavItem();
