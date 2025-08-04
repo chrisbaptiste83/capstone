@@ -1,0 +1,8 @@
+id,name,price,image,description,category
+1,Floral Mandala,4.99,images/floral-mandala.jpg,A symmetrical floral mandala pattern for 5x5 hoops.,Floral
+2,Cute Fox,3.99,images/cute-fox.jpg,A playful fox face perfect for children's clothing.,Animals
+3,Sunflower Patch,4.25,images/sunflower-patch.jpg,Bright sunflower cluster ideal for tote bags.,Floral
+4,Lunar Moth,5.49,images/lunar-moth.jpg,An elegant moth with crescent moons and stars.,Celestial
+5,Rose Heart,3.75,images/rose-heart.jpg,A romantic heart of blooming roses.,Romantic
+6,Boho Arrows,4.10,images/boho-arrows.jpg,Geometric boho-style arrows for modern embroidery.,Boho
+

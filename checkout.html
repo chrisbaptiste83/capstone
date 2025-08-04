@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checkout - Embroidery Shop</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col items-center p-6">
+ <nav class="w-full max-w-6xl mx-auto mb-8 px-4">
+  <div class="flex flex-wrap items-center justify-between py-4 border-b border-gray-300">
+    <h1 class="text-3xl font-bold text-indigo-700">Embroidery Shop</h1>
+
+    <div class="flex flex-wrap gap-6 items-center text-sm font-medium text-indigo-700">
+      <a href="index.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Home</a>
+      <div id="category-links" class="flex gap-4 flex-wrap items-center text-sm font-medium text-indigo-700">
+        <!-- Categories will be inserted here dynamically -->
+      </div>
+      <a href="signup.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Sign Up</a>
+      <a href="login.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Login</a>
+
+      <!-- Cart Button -->
+      <button id="cart-btn" class="relative ml-4" aria-label="Toggle shopping cart">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 24 24" stroke-width="2"
+          stroke="currentColor" class="w-8 h-8 text-indigo-700 hover:text-indigo-900 transition">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3 3h2l.4 2m.6 3h13.4l-1.6 8H7.2l-1.6-8zm0 0L5.2 5H19m-9 12a1 1 0 100 2 1 1 0 000-2zm6 0a1 1 0 100 2 1 1 0 000-2z" />
+        </svg>
+        <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full px-1.5 py-0.5 hidden">0</span>
+      </button>
+    </div>
+  </div>
+</nav> 
+  <h1 class="text-3xl font-bold mb-8 text-indigo-700">Checkout</h1>
+
+  <div id="cart-items" class="max-w-3xl w-full bg-white p-6 rounded-lg shadow mb-8">
+    <!-- Cart items will be rendered here -->
+  </div>
+
+<div class="flex flex-wrap justify-center gap-4 mt-8">
+  <button id="checkout-button" class="bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-700 transition">
+    Proceed to Payment
+  </button>
+  <button id="clear-cart-button" class="bg-red-100 text-red-600 px-6 py-3 rounded-full font-semibold hover:bg-red-200 transition">
+    Clear Cart
+  </button>
+</div>
+  <script src="checkout.js"></script>
+</body>
+</html>
+
