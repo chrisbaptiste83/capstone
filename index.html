@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,94 +7,65 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
-
 </head>
-
 <body class="bg-gray-50 min-h-screen px-4 py-6 flex flex-col items-center">
-
     <!-- Navigation -->
-    
-<!-- Navigation -->
+    <nav class="w-full max-w-6xl mx-auto mb-8 px-4">
+        <div class="flex flex-wrap items-center justify-between py-4 border-b border-gray-300">
+            <h1 class="text-3xl font-bold text-indigo-700">Embroidery Shop</h1>
+            <div class="flex flex-wrap gap-6 items-center text-sm font-medium text-indigo-700">
+                <a href="index.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Home</a>
+                <div id="category-links" class="flex gap-4 flex-wrap items-center text-sm font-medium text-indigo-700">
+                    <!-- Categories will be inserted dynamically -->
+                </div>
+                <a href="signup.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Sign Up</a>
+                <a href="login.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Login</a>
+                <a href="checkout.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Checkout</a>
+                <button id="cart-btn" class="relative ml-4" aria-label="Toggle shopping cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-indigo-700 hover:text-indigo-900 transition">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2m.6 3h13.4l-1.6 8H7.2l-1.6-8zm0 0L5.2 5H19m-9 12a1 1 0 100 2 1 1 0 000-2zm6 0a1 1 0 100 2 1 1 0 000-2z" />
+                    </svg>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full px-1.5 py-0.5 hidden">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
 
-<!-- Navigation -->
-
-
-<nav class="w-full max-w-6xl mx-auto mb-8 px-4">
-  <div class="flex flex-wrap items-center justify-between py-4 border-b border-gray-300">
-    <h1 class="text-3xl font-bold text-indigo-700">Embroidery Shop</h1>
-
-    <div class="flex flex-wrap gap-6 items-center text-sm font-medium text-indigo-700">
-      <a href="index.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Home</a>
-      <div id="category-links" class="flex gap-4 flex-wrap items-center text-sm font-medium text-indigo-700">
-        <!-- Categories will be inserted here dynamically -->
-      </div>
-      <a href="signup.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Sign Up</a>
-      <a href="login.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Login</a>
-      <a href="checkout.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Checkout</a>
-
-      <!-- Cart Button -->
-      <button id="cart-btn" class="relative ml-4" aria-label="Toggle shopping cart">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-          viewBox="0 0 24 24" stroke-width="2"
-          stroke="currentColor" class="w-8 h-8 text-indigo-700 hover:text-indigo-900 transition">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M3 3h2l.4 2m.6 3h13.4l-1.6 8H7.2l-1.6-8zm0 0L5.2 5H19m-9 12a1 1 0 100 2 1 1 0 000-2zm6 0a1 1 0 100 2 1 1 0 000-2z" />
-        </svg>
-        <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full px-1.5 py-0.5 hidden">0</span>
-      </button>
-    </div>
-  </div>
-</nav>
-
-
-
-
+    <!-- Hero Section -->
     <section class="w-full max-w-6xl mb-10 p-8 bg-indigo-100 rounded-xl text-center">
         <h1 class="text-4xl font-extrabold text-indigo-800 mb-4">Welcome to the Embroidery Files Shop</h1>
         <p class="text-indigo-700 mb-6 max-w-xl mx-auto">Discover unique and beautiful embroidery designs ready for download. Browse our curated collection and bring your creative projects to life.</p>
-        <a href="#product-list" class="inline-block bg-indigo-700 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-800 transition">
-    Browse Products
-  </a>
+        <a href="#product-list" class="inline-block bg-indigo-700 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-800 transition">Browse Products</a>
     </section>
 
+    <!-- Product Listing -->
     <main class="w-full max-w-6xl">
         <section id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <p class="text-gray-500 text-center col-span-full" id="loading-products">Loading products...</p>
             <!-- Products injected here -->
         </section>
     </main>
 
     <!-- Product Modal -->
-   
-<div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm hidden z-40"></div>
-
-<dialog id="product-modal" class="modal z-50">
-  <form method="dialog" class="modal-box max-w-3xl w-[90vw] p-8 rounded-2xl bg-white/90 backdrop-blur-md shadow-xl">
-    <h3 id="modal-title" class="text-3xl font-extrabold mb-4 text-center text-gray-900"></h3>
-
-    <img id="modal-image" class="w-full max-h-72 object-contain rounded-lg mb-6 shadow" alt="Product Image" />
-
-    <p id="modal-description" class="text-gray-700 text-base mb-2 text-center leading-relaxed"></p>
-    <p id="modal-price" class="text-xl font-semibold text-center text-indigo-700 mb-4"></p>
-
-    <div class="mb-6 flex justify-center">
-      <label class="form-control w-28">
-        <span class="text-sm font-medium text-gray-700 mb-1">Quantity</span>
-        <input type="number" id="quantity" class="input input-bordered input-sm w-full text-center" min="1" value="1" />
-      </label>
-    </div>
-
-    <div class="modal-action flex justify-center gap-4">
-      <button type="submit" class="btn bg-indigo-600 text-white px-6 py-2 rounded-lg text-base hover:bg-indigo-700 hover:scale-105 transition-transform shadow-md">
-        Add to Cart
-      </button>
-      <button type="button" id="modal-cancel" class="btn bg-white/50 text-gray-800 border border-gray-300 px-6 py-2 rounded-lg hover:bg-white hover:text-indigo-700 transition-colors shadow-sm">
-        Cancel
-      </button>
-    </div>
-  </form>
-</dialog>
-
-
+    <div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm hidden z-40"></div>
+    <dialog id="product-modal" class="modal z-50">
+        <form method="dialog" class="modal-box max-w-3xl w-[90vw] p-8 rounded-2xl bg-white/90 backdrop-blur-md shadow-xl">
+            <h3 id="modal-title" class="text-3xl font-extrabold mb-4 text-center text-gray-900"></h3>
+            <img id="modal-image" class="w-full max-h-72 object-contain rounded-lg mb-6 shadow" alt="Product Image" />
+            <p id="modal-description" class="text-gray-700 text-base mb-2 text-center leading-relaxed"></p>
+            <p id="modal-price" class="text-xl font-semibold text-center text-indigo-700 mb-4"></p>
+            <div class="mb-6 flex justify-center">
+                <label class="form-control w-28">
+                    <span class="text-sm font-medium text-gray-700 mb-1">Quantity</span>
+                    <input type="number" id="quantity" class="input input-bordered input-sm w-full text-center" min="1" value="1" />
+                </label>
+            </div>
+            <div class="modal-action flex justify-center gap-4">
+                <button type="submit" class="btn bg-indigo-600 text-white px-6 py-2 rounded-lg text-base hover:bg-indigo-700 hover:scale-105 transition-transform shadow-md">Add to Cart</button>
+                <button type="button" id="modal-cancel" class="btn bg-white/50 text-gray-800 border border-gray-300 px-6 py-2 rounded-lg hover:bg-white hover:text-indigo-700 transition-colors shadow-sm">Cancel</button>
+            </div>
+        </form>
+    </dialog>
 
     <!-- Cart Panel -->
     <div id="cart-panel" class="fixed right-0 top-0 h-full w-80 bg-white shadow-lg p-6 z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
@@ -103,66 +73,59 @@
         <div id="cart-items" class="flex-grow overflow-auto">
             <p class="text-gray-500">Cart is currently empty.</p>
         </div>
-        <button id="go-to-checkout" class="mt-6 w-full bg-indigo-600 text-white py-3 rounded-full">
-        Got to Checkout
-        </button>
+        <button id="go-to-checkout" class="mt-6 w-full bg-indigo-600 text-white py-3 rounded-full">Go to Checkout</button>
     </div>
 
+    <!-- External JS -->
     <script src="script.js"></script>
+
+    <!-- Firebase Initialization and Auth Logic -->
     <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBPd56QvMuGZ2AE-f5F48sZvrLDZXUOUxo",
-    authDomain: "embroidery-file-store.firebaseapp.com",
-    projectId: "embroidery-file-store",
-    storageBucket: "embroidery-file-store.firebasestorage.app",
-    messagingSenderId: "963443165128",
-    appId: "1:963443165128:web:dcb602d47f3dc884a7a2fd",
-    measurementId: "G-68CQ7R285V"
-  };
+        // Firebase Configuration (Secure in production with env vars or backend proxy)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBPd56QvMuGZ2AE-f5F48sZvrLDZXUOUxo",
+            authDomain: "embroidery-file-store.firebaseapp.com",
+            projectId: "embroidery-file-store",
+            storageBucket: "embroidery-file-store.firebasestorage.app",
+            messagingSenderId: "963443165128",
+            appId: "1:963443165128:web:dcb602d47f3dc884a7a2fd",
+            measurementId: "G-68CQ7R285V"
+        };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  document.getElementById('signup-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        alert("Signed up successfully!");
-        window.location.href = "index.html";
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  });
-
-  // Login (if you also have login form)
-  document.getElementById('login-form')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        alert("Logged in!");
-        window.location.href = "index.html";
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  });
-</script>
+        // Monitor Auth State
+        onAuthStateChanged(auth, (user) => {
+            const loginLink = document.querySelector('a[href="login.html"]');
+            const signupLink = document.querySelector('a[href="signup.html"]');
+            if (user) {
+                console.log('User logged in:', user.email);
+                if (loginLink) loginLink.textContent = 'Profile';
+                if (signupLink) {
+                    signupLink.textContent = 'Logout';
+                    signupLink.onclick = async (e) => {
+                        e.preventDefault();
+                        try {
+                            await auth.signOut();
+                            alert('Logged out successfully!');
+                            window.location.href = 'index.html';
+                        } catch (error) {
+                            console.error('Logout error:', error);
+                            alert('Logout failed: ' + error.message);
+                        }
+                    };
+                }
+            } else {
+                console.log('No user logged in');
+                if (loginLink) loginLink.textContent = 'Login';
+                if (signupLink) signupLink.textContent = 'Sign Up';
+            }
+        });
+    </script>
 </body>
-
 </html>
-

@@ -1,54 +1,108 @@
-
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Checkout - Embroidery Shop</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://js.stripe.com/v3/"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout - Embroidery Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <!-- Firebase Compat Scripts to avoid module syntax errors -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col items-center p-6">
- <nav class="w-full max-w-6xl mx-auto mb-8 px-4">
-  <div class="flex flex-wrap items-center justify-between py-4 border-b border-gray-300">
-    <h1 class="text-3xl font-bold text-indigo-700">Embroidery Shop</h1>
+    <!-- Navigation -->
+    <nav class="w-full max-w-6xl mx-auto mb-8 px-4">
+        <div class="flex flex-wrap items-center justify-between py-4 border-b border-gray-300">
+            <h1 class="text-3xl font-bold text-indigo-700">Embroidery Shop</h1>
+            <div class="flex flex-wrap gap-6 items-center text-sm font-medium text-indigo-700">
+                <a href="index.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Home</a>
+                <div id="category-links" class="flex gap-4 flex-wrap items-center text-sm font-medium text-indigo-700">
+                    <!-- Categories will be inserted here dynamically -->
+                </div>
+                <a href="signup.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Sign Up</a>
+                <a href="login.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Login</a>
+                <button id="cart-btn" class="relative ml-4" aria-label="Toggle shopping cart">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-indigo-700 hover:text-indigo-900 transition">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2m.6 3h13.4l-1.6 8H7.2l-1.6-8zm0 0L5.2 5H19m-9 12a1 1 0 100 2 1 1 0 000-2zm6 0a1 1 0 100 2 1 1 0 000-2z" />
+                    </svg>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full px-1.5 py-0.5 hidden">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
 
-    <div class="flex flex-wrap gap-6 items-center text-sm font-medium text-indigo-700">
-      <a href="index.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Home</a>
-      <div id="category-links" class="flex gap-4 flex-wrap items-center text-sm font-medium text-indigo-700">
-        <!-- Categories will be inserted here dynamically -->
-      </div>
-      <a href="signup.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Sign Up</a>
-      <a href="login.html" class="hover:underline hover:underline-offset-4 hover:text-indigo-900 transition">Login</a>
+    <!-- Checkout Header -->
+    <h1 class="text-3xl font-bold mb-8 text-indigo-700">Checkout</h1>
 
-      <!-- Cart Button -->
-      <button id="cart-btn" class="relative ml-4" aria-label="Toggle shopping cart">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-          viewBox="0 0 24 24" stroke-width="2"
-          stroke="currentColor" class="w-8 h-8 text-indigo-700 hover:text-indigo-900 transition">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M3 3h2l.4 2m.6 3h13.4l-1.6 8H7.2l-1.6-8zm0 0L5.2 5H19m-9 12a1 1 0 100 2 1 1 0 000-2zm6 0a1 1 0 100 2 1 1 0 000-2z" />
-        </svg>
-        <span id="cart-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full px-1.5 py-0.5 hidden">0</span>
-      </button>
+    <!-- Cart Items Summary -->
+    <div id="cart-items" class="max-w-3xl w-full bg-white p-6 rounded-lg shadow mb-8">
+        <p class="text-gray-500 text-center" id="empty-cart-message">Loading cart items...</p>
+        <!-- Cart items will be rendered here by checkout.js -->
     </div>
-  </div>
-</nav> 
-  <h1 class="text-3xl font-bold mb-8 text-indigo-700">Checkout</h1>
 
-  <div id="cart-items" class="max-w-3xl w-full bg-white p-6 rounded-lg shadow mb-8">
-    <!-- Cart items will be rendered here -->
-  </div>
+    <!-- Checkout Actions -->
+    <div class="flex flex-wrap justify-center gap-4 mt-8">
+        <button id="checkout-button" class="bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed" aria-label="Proceed to payment with Stripe" disabled>
+            Proceed to Payment
+        </button>
+        <button id="clear-cart-button" class="bg-red-100 text-red-600 px-6 py-3 rounded-full font-semibold hover:bg-red-200 transition disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-gray-500" aria-label="Clear all items from cart" disabled>
+            Clear Cart
+        </button>
+    </div>
 
-<div class="flex flex-wrap justify-center gap-4 mt-8">
-  <button id="checkout-button" class="bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-700 transition">
-    Proceed to Payment
-  </button>
-  <button id="clear-cart-button" class="bg-red-100 text-red-600 px-6 py-3 rounded-full font-semibold hover:bg-red-200 transition">
-    Clear Cart
-  </button>
-</div>
-  <script src="checkout.js"></script>
+    <!-- Firebase Initialization and Auth UI Updates (Not tied to checkout) -->
+    <script>
+        // Firebase Configuration (Secure this in production)
+        var firebaseConfig = {
+            apiKey: "AIzaSyBPd56QvMuGZ2AE-f5F48sZvrLDZXUOUxo",
+            authDomain: "embroidery-file-store.firebaseapp.com",
+            projectId: "embroidery-file-store",
+            storageBucket: "embroidery-file-store.firebasestorage.app",
+            messagingSenderId: "963443165128",
+            appId: "1:963443165128:web:dcb602d47f3dc884a7a2fd",
+            measurementId: "G-68CQ7R285V"
+        };
+
+        // Initialize Firebase with error handling
+        try {
+            firebase.initializeApp(firebaseConfig);
+            console.log('Firebase initialized successfully');
+            var auth = firebase.auth();
+
+            // Update Navigation UI Based on Auth State
+            auth.onAuthStateChanged(function(user) {
+                var loginLink = document.querySelector('a[href="login.html"]');
+                var signupLink = document.querySelector('a[href="signup.html"]');
+                if (user) {
+                    console.log('User is logged in:', user.email);
+                    if (loginLink) loginLink.textContent = 'Profile';
+                    if (signupLink) {
+                        signupLink.textContent = 'Logout';
+                        signupLink.onclick = function(e) {
+                            e.preventDefault();
+                            auth.signOut().then(function() {
+                                alert('Logged out successfully!');
+                                window.location.href = 'index.html';
+                            }).catch(function(error) {
+                                console.error('Logout error:', error);
+                                alert('Logout failed: ' + error.message);
+                            });
+                        };
+                    }
+                } else {
+                    console.log('No user logged in');
+                    if (loginLink) loginLink.textContent = 'Login';
+                    if (signupLink) signupLink.textContent = 'Sign Up';
+                }
+            });
+        } catch (error) {
+            console.error('Firebase initialization error:', error);
+            alert('Firebase setup failed. Authentication features may not work.');
+        }
+    </script>
+
+    <!-- External JS for Cart and Stripe Logic -->
+    <script src="checkout.js"></script>
 </body>
 </html>
-
